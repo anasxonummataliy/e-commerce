@@ -8,5 +8,6 @@ dependencies = [
     "asyncpg>=0.31.0",
     "dotenv>=0.9.9",
     "fastapi>=0.132.1",
+    "pydantic-settings>=2.13.1",
     "sqlalchemy>=2.0.46",
 ]
