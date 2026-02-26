@@ -1,21 +1,20 @@
 import time
-from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.database.session import engine
+from app.database.session import create_db_and_tables
+from app.router import routers
+from app.schemas import UserRegister
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
-        async with engine.begin() as conn:
-            await conn.run_sync(lambda sync_conn: sync_conn.execute("SELECT 1"))
-        print("Database connection successful")
+        await create_db_and_tables()
     except Exception as e:
-        print(f"Database connection failed: {e}")
+        print(e)
         raise e
     yield
 
@@ -23,12 +22,16 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-@app.add_middleware(
+app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(routers)
+
+
 @app.get("/")
-async def root():
-    return {"message": "Hello, World!"}
+async def start():
+    return {"message": "Ishlayapti Docs : http://127.0.0.1:8000/docs"}
