@@ -10,9 +10,3 @@ from app.repo.base_repo import BaseRepository
 
 class UserRepo(BaseRepository[User]):
     pass
-
-
-u = UserRepo()
-
-
-u.create()
