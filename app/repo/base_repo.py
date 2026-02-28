@@ -3,7 +3,7 @@ from sqlalchemy import Sequence, select
 from sqlalchemy.engine.create import Type
 
 from app.database.base import Base
-from app.router.depends import DBsession
+from app.api.depends import DBsession
 
 ModelType = TypeVar("ModelType", bound=Base)
 

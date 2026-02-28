@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.util.typing import Annotated
 from app.repo.user_repo import UserRepo
-from app.router.auth import TokenResponse, UserRegister
+from app.api.auth import TokenResponse, UserRegister
 
 
 class AuthService:
