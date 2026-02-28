@@ -2,12 +2,17 @@ from typing import TypeVar, Generic, Any
 from sqlalchemy import Sequence, select
 from sqlalchemy.engine.create import Type
 
+from app.database.models.user import User
 from app.database.session import AsyncSession
 from app.database.base import Base
+from app.repo.base_repo import BaseRepository
 
-ModelType = TypeVar("ModelType", bound=Base)
+
+class UserRepo(BaseRepository[User]):
+    pass
 
 
-class User(Generic[ModelType]):
-    def __init__(self, model: Type[ModelType]):
-        self.model = model
+u = UserRepo()
+
+
+u.create()

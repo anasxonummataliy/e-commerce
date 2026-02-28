@@ -2,6 +2,7 @@ from typing import TypeVar, Generic, Any
 from sqlalchemy import Sequence, select
 from sqlalchemy.engine.create import Type
 
+from app.database.dep import DBsession
 from app.database.session import AsyncSession
 from app.database.base import Base
 
@@ -10,29 +11,27 @@ ModelType = TypeVar("ModelType", bound=Base)
 
 class BaseRepository(Generic[ModelType]):
 
-    def __init__(self, model: Type[ModelType]):
+    def __init__(self, model: Type[ModelType], session: DBsession):
         self.model = model
+        self.session = session
 
-    async def create(cls, db: AsyncSession, **kwargs) -> ModelType:
-        obj = cls(**kwargs)
-        db.add(obj)
-        await db.commit()
-        await db.refresh(obj)
+    async def create(self, **kwargs) -> ModelType:
+        obj = self.model(**kwargs)
+        self.session.add(obj)
+        await self.session.commit()
+        await self.session.refresh(obj)
         return obj
 
-    async def get(self, db: AsyncSession, _id: Any) -> ModelType | None:
-        result = await db.execute(select(self.model).filter_by(id=_id))
+    async def get(self, _id: Any) -> ModelType | None:
+        result = await self.session.execute(select(self.model).filter_by(id=_id))
         return result.scalar_one_or_none()
 
-    async def get_all(self, db: AsyncSession) -> Sequence[ModelType]:
-        result = await db.execute(select(self.model))
+    async def get_all(self) -> Sequence[ModelType]:
+        result = await self.session.execute(select(self.model))
         return result.scalars().all()
 
-    async def update(self, db: AsyncSession, _id: Any, **kwargs) -> ModelType | None:
-        obj = await self.get(db, _id)
-        if obj:
-            for key, value in kwargs.items():
-                setattr(obj, key, value)
-            await db.commit()
-            await db.refresh(obj)
-        return obj
+    async def update(self, obj: ModelType, **kwargs) -> ModelType | None:
+        for key, value in kwargs.items():
+            setattr(obj, key, value)
+        await self.session.commit()
+        await self.session.refresh(obj)
