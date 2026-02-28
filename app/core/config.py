@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     PG_PORT: int = os.getenv("PG_PORT")
     PG_DB: str = os.getenv("PG_DB")
 
-    @computed_field
+    @property
     def DB_URL(self) -> str:
         return f"postgresql+asyncpg://{self.PG_USER}:{self.PG_PASS}@{self.PG_HOST}:{self.PG_PORT}/{self.PG_DB}"
 
