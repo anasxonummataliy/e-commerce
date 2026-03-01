@@ -1,12 +1,26 @@
-from sqlalchemy import BigInteger, String
+from enum import Enum
+from sqlalchemy import Boolean, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.database.base import Base
+from app.database.base import TimeBaseModel
 
 
-class User(Base):
+class AuthProvider(Enum):
+    local = "local"
+    google = "google"
+
+
+class User(TimeBaseModel):
     __tablename__ = "users"
 
-    first_name: Mapped[str] = mapped_column(String)
-    last_name: Mapped[str] = mapped_column(String)
-    age: Mapped[int] = mapped_column(BigInteger)
+    email: Mapped[str] = mapped_column(String, unique=True)
+    username: Mapped[str] = mapped_column(String, unique=True)
+    hashed_password: Mapped[str] = mapped_column(String)
+    full_name: Mapped[str] = mapped_column(String)
+    is_activeL: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
+    auth_provider: Mapped[AuthProvider] = mapped_column(
+        Enum(AuthProvider), default=AuthProvider.local
+    )
+    google_id: Mapped[str | None] = mapped_column(String, nullable=True)
+    avatar_url: Mapped[str | None] = mapped_column(String, nullable=True)
