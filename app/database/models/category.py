@@ -5,7 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database.base import TimeBaseModel
 
 if TYPE_CHECKING:
-    from category import Product
+    from product import Product
 
 
 class Category(TimeBaseModel):
