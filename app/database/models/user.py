@@ -17,7 +17,7 @@ class User(TimeBaseModel):
     username: Mapped[str] = mapped_column(String, unique=True)
     hashed_password: Mapped[str] = mapped_column(String)
     full_name: Mapped[str] = mapped_column(String)
-    is_activeL: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     auth_provider: Mapped[AuthProvider] = mapped_column(
         Enum(AuthProvider), default=AuthProvider.local
