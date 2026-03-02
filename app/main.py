@@ -10,12 +10,7 @@ from app.api import routers
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    try:
-        await create_db_and_tables()
-    except Exception as e:
-        print(e)
-        raise e
-    yield
+    pass
 
 
 app = FastAPI(lifespan=lifespan)
