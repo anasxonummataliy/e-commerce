@@ -9,6 +9,7 @@ from app.database.base import TimeBaseModel
 if TYPE_CHECKING:
     from user import User
     from address import Address
+    from product import Product
 
 
 class OrderStatus(pyEnum):
@@ -42,4 +43,27 @@ class Order(TimeBaseModel):
 
 
 class OrderItem(TimeBaseModel):
-    pass
+    __tablename__ = "order_items"
+
+    order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"), nullable=False)
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"), nullable=False)
+    quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    unit_price: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+
+    order: Mapped["Order"] = relationship("Order", back_populates="items")
+    product: Mapped["Product"] = relationship("Product")
+
+
+class Payment(TimeBaseModel):
+    __tablename__ = "payments"
+
+    order_id: Mapped[int] = mapped_column(
+        ForeignKey("orders.id"), unique=True, nullable=False
+    )
+    stripe_payment_id: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    status: Mapped[PaymentStatus] = mapped_column(
+        SqlEnum(PaymentStatus), default=PaymentStatus.pending
+    )
+
+    order: Mapped["Order"] = relationship("Order", back_populates="payment")
