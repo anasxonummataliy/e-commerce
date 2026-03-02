@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import str
 
 class AddressCreate(BaseModel):
     full_name: str
