@@ -12,9 +12,3 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
 
 
-class QParams(BaseModel):
-    pageram: str | None = None
-    eewewe: str = "login"
-
-    class Config:
-        from_attributes = True

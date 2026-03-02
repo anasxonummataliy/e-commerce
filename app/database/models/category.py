@@ -17,12 +17,6 @@ class Category(TimeBaseModel):
         BigInteger, ForeignKey("categories.id")
     )
 
-    parent: Mapped["Category | None"] = relationship(
-        "Category", back_populates="children"
-    )
-    children: Mapped[list["Category"]] = relationship(
-        "Category", back_populates="parent"
-    )
-    products: Mapped[list["Product"]] = relationship(
-        "Product", back_populates="category"
-    )
+    parent: Mapped["Category | None"] = relationship("Category", back_populates="children")
+    children: Mapped[list["Category"]] = relationship("Category", back_populates="parent")
+    products: Mapped[list["Product"]] = relationship("Product", back_populates="category")
