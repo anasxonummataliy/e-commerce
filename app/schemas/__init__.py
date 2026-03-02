@@ -1,1 +1,1 @@
-from .auth import UserRegister, QParams
+from .auth import UserRegister

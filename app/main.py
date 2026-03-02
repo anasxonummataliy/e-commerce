@@ -4,7 +4,6 @@ from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.database.session import create_db_and_tables
 from app.api import routers
 
 
