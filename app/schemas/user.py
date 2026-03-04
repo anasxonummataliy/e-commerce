@@ -1,5 +1,6 @@
-from pydantic import BaseModel, EmailStr
+from builtins import str
 from enum import Enum
+from pydantic import BaseModel, EmailStr
 
 
 class AuthProvider(str, Enum):
@@ -8,7 +9,7 @@ class AuthProvider(str, Enum):
 
 
 class UserCreate(BaseModel):
-    email: EmailStr
+    email: EmailStr  # type: ignore
     username: str
     password: str
     full_name: str | None = None
@@ -22,7 +23,7 @@ class UserUpdate(BaseModel):
 
 class UserResponse(BaseModel):
     id: int
-    email: EmailStr
+    email: EmailStr  # type: ignore
     username: str
     full_name: str | None
     avatar_url: str | None
