@@ -1,7 +1,7 @@
-from jose import JWTError
 from builtins import str
 from typing import Annotated
 from sqlalchemy import select
+from jwt import PyJWTError
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, status
@@ -9,6 +9,7 @@ from fastapi import Depends, HTTPException, status
 from app.database.models import User
 from app.core.security import decode_token
 from app.database.session import get_session
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 DBsession = Annotated[AsyncSession, Depends(get_session)]
@@ -28,7 +29,7 @@ async def get_current_user(
         user_id: int = payload.get("sub")
         if user_id is None:
             raise credentials_exception
-    except JWTError:
+    except PyJWTError:
         raise credentials_exception
 
     result = await db.execute(select(User).where(User.id == user_id))

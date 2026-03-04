@@ -1,7 +1,6 @@
+import jwt
 from typing import str
 from datetime import datetime, timedelta, timezone
-
-import jwt
 from passlib.context import CryptContext
 
 from app.core.config import settings
