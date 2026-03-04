@@ -1,13 +1,14 @@
-from typing import Annotated
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
+from builtins import str
+from typing import Annotated
 from sqlalchemy import select
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import Depends, HTTPException, status
 
-from app.database.session import get_session
-from app.core.security import decode_token
 from app.database.models import User
+from app.core.security import decode_token
+from app.database.session import get_session
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 DBsession = Annotated[AsyncSession, Depends(get_session)]
