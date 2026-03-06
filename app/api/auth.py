@@ -18,7 +18,7 @@ async def register(
     return await auth_service.register_user(user_in)
 
 
-@auth_router.get("")
+@auth_router.get("/login")
 async def login(params: Annotated[QParams, Query()]):
     """Kirish endpointi"""
     return {"message": "Login endpoint - ishlayapti"}
