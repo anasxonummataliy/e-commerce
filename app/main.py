@@ -7,8 +7,7 @@ from app.api import routers
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    pass
-
+    yield
 
 app = FastAPI(lifespan=lifespan)
 

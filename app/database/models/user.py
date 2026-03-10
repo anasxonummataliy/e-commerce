@@ -1,11 +1,12 @@
-from enum import Enum
 from sqlalchemy import Boolean, String
 from sqlalchemy.orm import Mapped, mapped_column
+from enum import Enum as PyEnum
+from sqlalchemy import Enum as SAEnum
 
 from app.database.base import TimeBaseModel
 
 
-class AuthProvider(Enum):
+class AuthProvider(PyEnum):
     local = "local"
     google = "google"
 
@@ -20,7 +21,7 @@ class User(TimeBaseModel):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     auth_provider: Mapped[AuthProvider] = mapped_column(
-        Enum(AuthProvider), default=AuthProvider.local
+        SAEnum(AuthProvider), default=AuthProvider.local
     )
     google_id: Mapped[str | None] = mapped_column(String, nullable=True)
     avatar_url: Mapped[str | None] = mapped_column(String, nullable=True)

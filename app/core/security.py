@@ -1,5 +1,5 @@
 import jwt
-from typing import str
+from builtins import str
 from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext
 
