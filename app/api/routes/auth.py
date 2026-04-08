@@ -13,10 +13,9 @@ AuthServiceDep = Annotated[AuthService, Depends()]
 async def register(
         user_in: UserCreate, auth_service: AuthServiceDep
 ):
-    return  await auth_service.register_user(user_in)
+    return await auth_service.register_user(user_in)
 
 
 @auth_router.get("/login")
 async def login():
-    """Kirish endpointi"""
     return {"message": "Login endpoint - ishlayapti"}
