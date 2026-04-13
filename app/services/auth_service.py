@@ -2,7 +2,7 @@ from builtins import str
 from fastapi import Depends
 from typing import Annotated
 
-from app.repo.user_repo import UserRepo
+from app.repository.user_repo import UserRepo
 from app.schemas.auth import Token
 from app.core.security import create_access_token, create_refresh_token, hash_password
 from app.schemas.user import UserCreate
@@ -20,3 +20,5 @@ class AuthService:
             access_token=create_access_token({"sub": str(new_user.id)}),
             refresh_token=create_refresh_token({"sub": str(new_user.id)}),
         )
+
+
