@@ -7,6 +7,9 @@ class AuthProvider(str, Enum):
     local = "local"
     google = "google"
 
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
 
 class UserCreate(BaseModel):
     email: EmailStr  # type: ignore

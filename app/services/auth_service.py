@@ -5,7 +5,7 @@ from typing import Annotated
 from app.repository.user_repo import UserRepo
 from app.schemas.auth import Token
 from app.core.security import create_access_token, create_refresh_token, hash_password
-from app.schemas.user import UserCreate
+from app.schemas.user import UserCreate, UserLogin
 
 
 class AuthService:
@@ -21,4 +21,7 @@ class AuthService:
             refresh_token=create_refresh_token({"sub": str(new_user.id)}),
         )
 
-
+    async def login_user(self, user_in: UserLogin):
+        data = user_in.model_dump()
+        print(data)
+        # data["hashed_password"] = hash_password(data.pop("password"))

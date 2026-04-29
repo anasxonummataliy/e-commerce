@@ -19,6 +19,7 @@ class BaseRepository(Generic[ModelType]):
         self.session.add(obj)
         await self.session.commit()
         await self.session.refresh(obj)
+        print("saqlandi")
         return obj
 
     async def get(self, _id: Any) -> ModelType | None:
