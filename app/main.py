@@ -1,6 +1,9 @@
+from importlib import reload
+
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 from app.api import routers
 
@@ -9,8 +12,8 @@ from app.api import routers
 async def lifespan(app: FastAPI):
     yield
 
-app = FastAPI(lifespan=lifespan)
 
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,9 +22,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(routers)
+# app.include_router(routers)
 
 
 @app.get("/")
 async def start():
     return {"message": "Ishlayapti Docs : http://127.0.0.1:8000/docs"}
+

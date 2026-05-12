@@ -31,3 +31,7 @@ class CartItem(TimeBaseModel):
 
     cart: Mapped["Cart"] = relationship("Cart", back_populates="items")
     product: Mapped["Product"] = relationship("Product")
+
+
+class CartSome(TimeBaseModel):
+    some: Mapped[str]

@@ -14,14 +14,17 @@ class AuthService:
 
     async def register_user(self, user_in: UserCreate):
         data = user_in.model_dump()
+        print(data)
         data["hashed_password"] = hash_password(data.pop("password"))
+
         new_user = await self.user_repo.create(**data)
         return Token(
             access_token=create_access_token({"sub": str(new_user.id)}),
             refresh_token=create_refresh_token({"sub": str(new_user.id)}),
         )
 
-    async def login_user(self, user_in: UserLogin):
-        data = user_in.model_dump()
-        print(data)
-        # data["hashed_password"] = hash_password(data.pop("password"))
+
+async def login_user(self, user_in: UserLogin):
+    data = user_in.model_dump()
+    print(data)
+    # data["hashed_password"] = hash_password(data.pop("password"))
