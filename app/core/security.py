@@ -1,19 +1,18 @@
 import jwt
-from builtins import str
 from datetime import datetime, timedelta, timezone
-from passlib.context import CryptContext
+from pwdlib import PasswordHash
 
 from app.core.config import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+ph = PasswordHash.recommended()
 
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    return ph.hash(password)
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    return ph.check(hashed, plain)
 
 
 def create_access_token(data: dict) -> str:
